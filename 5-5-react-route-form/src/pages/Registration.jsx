@@ -10,7 +10,27 @@ export default function Registration() {
     e.preventDefault();
     {/*Form validations*/}
 
-    // alert(`Regiteration submit: ${email}`);
+    const nextErrors = {};
+
+    // Email validation
+    if (!email.trim()) nextErrors.email = "Email is required";
+    else if (!(email.includes("@") && email.endsWith(".com")))
+      nextErrors.email = "Enter a valid email address";
+
+    // Password validation
+    if (!password.trim()) nextErrors.password = "Password is required";
+
+    // Gender validation
+    if (!gender) nextErrors.gender = "Please select your gender";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return; // stop form submit if errors
+
+    alert(`User Registered: ${email})`);
+
+    alert(`Regiteration submit: ${email}`);
+    
+    
   };
 
   return (
@@ -44,12 +64,15 @@ export default function Registration() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {errors.password && (
+            <p className="error">{errors.password}</p>
+          )}
         </div>
 
         <fieldset className="form-row">
           {/*Radio Button for gender*/}
-          <fieldset className="form-row">
             <legend>Gender</legend>
+
             <label className="radio">
               <input
                 type="radio"
@@ -59,10 +82,7 @@ export default function Registration() {
                 onChange={(e) => setGender(e.target.value)}
               /> Male
             </label>
-          </fieldset>
 
-          <fieldset className="form-row">
-            <legend>Gender</legend>
             <label className="radio">
               <input
                 type="radio"
@@ -70,14 +90,17 @@ export default function Registration() {
                 value="female"
                 checked={gender === "female"}
                 onChange={(e) => setGender(e.target.value)}
-              /> Male
+              /> Female
             </label>
+
+            {errors.gender && (
+              <p className="error">{errors.gender}</p>
+            )}
+
           </fieldset>
 
-        </fieldset>
-
           {/*Disable the submit button until all requirements met*/}
-        <button type="submit" className="btn">Register</button>
+        <button type="submit" disabled={!email || !password || !gender}>Register</button>
       </form>
 
       <div className="card info">
@@ -176,18 +199,3 @@ export default function Registration() {
 // - Use the hints above to guide your implementation, but write the actual JSX and logic yourself.
 // ================================================================
 
-//      const nextErrors = {};
-//
-//      // Email validation
-//      if (!email.trim()) nextErrors.email = "Email is required";
-//      else if (!(email.includes("@") && email.endsWith(".com")))
-//        nextErrors.email = "Enter a valid email address";
-//
-//      // Password validation
-//      if (!password.trim()) nextErrors.password = "Password is required";
-//
-//      // Gender validation
-//      if (!gender) nextErrors.gender = "Please select your gender";
-//
-//      setErrors(nextErrors);
-//      if (Object.keys(nextErrors).length > 0) return; // stop form submit if errors
